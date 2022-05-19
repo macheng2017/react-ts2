@@ -1,7 +1,13 @@
 import React, {useContext, useState} from "react";
 import * as auth from "../auth/auth-provider"
+import {User} from "../auth/auth-provider";
 
-const AuthContext = React.createContext(undefined);
+const AuthContext = React.createContext<{
+    user: User | null,
+    login: (form: Form) => Promise<void>,
+    register: (form: Form) => Promise<void>,
+    logout: () => Promise<void>
+} | undefined>(undefined);
 
 AuthContext.displayName = "AuthContext";
 
@@ -11,11 +17,11 @@ interface Form {
 }
 
 export const AuthProvider = () => {
-    const [user, setUser] = useState(null)
-    const login = (form: Form) => auth.login(form)
-    const register = (form: Form) => auth.register(form)
-    const logout = () => auth.logout()
-    return <AuthContext.Provider value={{user,login,register,logout}}></AuthContext.Provider>
+    const [user, setUser] = useState<User | null>(null)
+    const login = (form: Form) => auth.login(form).then(user => setUser(user))
+    const register = (form: Form) => auth.register(form).then(user => setUser(user))
+    const logout = () => auth.logout().then(() => setUser(null))
+    return <AuthContext.Provider value={{user, login, register, logout}}/>
 }
 
 export const useAuth = () => {

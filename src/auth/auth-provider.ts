@@ -1,6 +1,6 @@
 const tokenKey = 'auth-token';
 
-interface User {
+export interface User {
     username: string;
     password: string;
     token: string;
@@ -48,6 +48,6 @@ export const register = (form: { username: string, password: string }) => {
     )
 }
 
-export const logout = () => {
-    window.localStorage.removeItem(tokenKey);
+export const logout = async () => {
+    await window.localStorage.removeItem(tokenKey);
 }
