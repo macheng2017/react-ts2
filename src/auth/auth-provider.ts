@@ -9,7 +9,8 @@ export interface User {
 
 // (user: User) 这种写法拿到的是带 一个key的对象 eg {"user":{"id":193415941,"name":"abc","token":"MTkzNDE1OTQx"}}
 // 而使用({user}:{user:User}) 这种写法拿到的是一个对象，不带key 例如{"id":193415941,"name":"abc","token":"MTkzNDE1OTQx"}
-const handlerUserResponse = (user: User) => {
+// 相当于把外面一层脱去了，只留下内部的对象
+const handlerUserResponse = ({user}:{user:User}) => {
     window.localStorage.setItem(tokenKey, user.token)
     // 在这里加上返回值之后就可以在调用时直接返回了
     return user

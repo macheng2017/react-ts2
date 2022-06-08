@@ -1,5 +1,5 @@
 import {FormEvent} from "react";
-import {useAuth} from "../../context/auth-context";
+import {useAuth} from "../context/auth-context";
 
 export const LoginScreen = () => {
     const {user, login} = useAuth()
@@ -15,7 +15,7 @@ export const LoginScreen = () => {
     }
     return (<form onSubmit={handleSubmit}>
         {
-            user ? "欢迎: " + JSON.stringify(user) : "not logged in"
+            user?.name ? "欢迎: " + user.name: "not logged in"
         }
         <div>
             <label htmlFor={"username"}>用户名</label>
